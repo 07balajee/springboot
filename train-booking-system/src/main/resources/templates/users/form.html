@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title th:text="${user.id == null} ? 'Create User' : 'Edit User'">User Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container">
+        <h1 class="brand">Train Booking System</h1>
+        <nav>
+            <a th:href="@{/trains}" class="nav-link">Trains</a>
+            <a th:href="@{/users}" class="nav-link">Users</a>
+            <a th:href="@{/tickets}" class="nav-link">Tickets</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="card small">
+        <h2 th:if="${user.id == null}">Create User</h2>
+        <h2 th:if="${user.id != null}">Edit User</h2>
+
+        <form th:action="${user.id == null} ? @{/users} : @{/users/update/{id}(id=${user.id})}"
+              th:object="${user}" method="post" class="form-grid">
+
+            <label class="form-row">
+                <span class="label-text">Name</span>
+                <input type="text" th:field="*{name}" placeholder="Full name" required />
+            </label>
+
+            <label class="form-row">
+                <span class="label-text">Email</span>
+                <input type="email" th:field="*{email}" placeholder="user@example.com" required />
+            </label>
+
+            <div class="form-actions">
+                <button type="submit" class="btn primary">Save</button>
+                <a th:href="@{/users}" class="btn ghost">Cancel</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">© <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span> Train Booking</div>
+</footer>
+</body>
+</html>
